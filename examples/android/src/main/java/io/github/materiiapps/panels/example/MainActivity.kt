@@ -3,26 +3,38 @@ package io.github.materiiapps.panels.example
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import io.github.materiiapps.panels.*
+import androidx.compose.ui.unit.dp
+import io.github.materiiapps.panels.PanelsDefaults
+import io.github.materiiapps.panels.SwipePanels
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Panels(
-                startPanel = {
-                    Box(Modifier.fillMaxSize().background(Color.Blue))
+            SwipePanels(
+                start = {
+                    Box(Modifier.fillMaxSize())
                 },
-                endPanel = {
-                    Box(Modifier.fillMaxSize().background(Color.Magenta))
-                }
+                end = {
+                    Box(Modifier.fillMaxSize())
+                },
+                paddings = PanelsDefaults.paddings(
+                    startPanelPadding = PaddingValues(8.dp),
+                    endPanelPadding = PaddingValues(8.dp),
+                ),
+                shapes = PanelsDefaults.shapes(
+                    startPanelShape = RoundedCornerShape(12.dp),
+                    endPanelShape = RoundedCornerShape(12.dp),
+                    centerPanelShape = RoundedCornerShape(12.dp)
+                )
             ) {
-                Box(Modifier.fillMaxSize().background(Color.White))
+                Spacer(Modifier.fillMaxSize())
             }
         }
     }

@@ -1,219 +1,136 @@
 package io.github.materiiapps.panels
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
 
-typealias ComposeAlignment = androidx.compose.ui.Alignment
+object PanelsDefaults {
 
-enum class PanelValue {
-    Expanded, Collapsed
-}
+    @Composable
+    fun colors(
+        containerBackground: Color = Color.Gray,
+        centerPanelBackground: Color = Color.White,
+        startPanelBackground: Color = Color.LightGray,
+        endPanelBackground: Color = Color.LightGray
+    ): PanelsColors {
+        return PanelsColors(
+            containerBackground = containerBackground,
+            centerPanelBackground = centerPanelBackground,
+            startPanelBackground = startPanelBackground,
+            endPanelBackground = endPanelBackground
+        )
+    }
 
-enum class Alignment {
-    Start, Center, End
+    @Composable
+    fun paddings(
+        centerPanelPadding: PaddingValues = PaddingValues(0.dp),
+        startPanelPadding: PaddingValues = PaddingValues(0.dp),
+        endPanelPadding: PaddingValues = PaddingValues(0.dp),
+    ): PanelsPaddings {
+        return PanelsPaddings(
+            centerPanelPadding = centerPanelPadding,
+            startPanelPadding = startPanelPadding,
+            endPanelPadding = endPanelPadding,
+        )
+    }
+
+    @Composable
+    fun shapes(
+        containerShape: Shape = RectangleShape,
+        centerPanelShape: Shape = RectangleShape,
+        startPanelShape: Shape = RectangleShape,
+        endPanelShape: Shape = RectangleShape,
+    ): PanelsShapes {
+        return PanelsShapes(
+            containerShape = containerShape,
+            centerPanelShape = centerPanelShape,
+            startPanelShape = startPanelShape,
+            endPanelShape = endPanelShape
+        )
+    }
 }
 
 @Stable
-class PanelsState(
-    defaultAlignment: Alignment,
-    startPanelValue: PanelValue,
-    endPanelValue: PanelValue,
+data class PanelsColors internal constructor(
+    private val containerBackground: Color,
+    private val centerPanelBackground: Color,
+    private val startPanelBackground: Color,
+    private val endPanelBackground: Color,
 ) {
 
-    var alignment by mutableStateOf(defaultAlignment)
-        private set
-
-    var startPanelValue by mutableStateOf(startPanelValue)
-        private set
-
-    var endPanelValue by mutableStateOf(endPanelValue)
-        private set
-
-    fun collapseStartPanel() {
-        startPanelValue = PanelValue.Collapsed
+    @Composable
+    internal fun containerBackground(): Color {
+        return containerBackground
     }
 
-    fun expandStartPanel() {
-        startPanelValue = PanelValue.Expanded
+    @Composable
+    internal fun centerPanelBackground(): Color {
+        return centerPanelBackground
     }
 
-    fun collapseEndPanel() {
-        endPanelValue = PanelValue.Collapsed
+    @Composable
+    internal fun startPanelBackground(): Color {
+        return startPanelBackground
     }
 
-    fun expandEndPanel() {
-        endPanelValue = PanelValue.Expanded
-    }
-
-    fun alignStart() {
-        alignment = Alignment.Start
-    }
-
-    fun alignCenter() {
-        alignment = Alignment.Center
-    }
-
-    fun alignEnd() {
-        alignment = Alignment.End
+    @Composable
+    internal fun endPanelBackground(): Color {
+        return endPanelBackground
     }
 }
 
-@Composable
-fun rememberPanelsState(
-    defaultAlignment: Alignment = Alignment.Center,
-    startPanelValue: PanelValue = PanelValue.Expanded,
-    endPanelValue: PanelValue = PanelValue.Expanded,
-): PanelsState {
-    return remember(defaultAlignment, startPanelValue, endPanelValue) {
-        PanelsState(defaultAlignment, startPanelValue, endPanelValue)
+@Stable
+data class PanelsPaddings internal constructor(
+    private val centerPanelPadding: PaddingValues,
+    private val startPanelPadding: PaddingValues,
+    private val endPanelPadding: PaddingValues,
+) {
+
+    @Composable
+    internal fun starPanelPadding(): PaddingValues {
+        return startPanelPadding
+    }
+
+    @Composable
+    internal fun centerPanelPadding(): PaddingValues {
+        return centerPanelPadding
+    }
+
+    @Composable
+    internal fun endPanelPadding(): PaddingValues {
+        return endPanelPadding
     }
 }
 
-@Composable
-fun Panels(
-    state: PanelsState = rememberPanelsState(),
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    startPanel: @Composable () -> Unit,
-    endPanel: @Composable () -> Unit,
-    centerPanel: @Composable () -> Unit,
+@Stable
+data class PanelsShapes internal constructor(
+    private val containerShape: Shape,
+    private val centerPanelShape: Shape,
+    private val startPanelShape: Shape,
+    private val endPanelShape: Shape
 ) {
-    BoxWithConstraints(modifier) {
-        if (maxWidth >= 840.dp) {
-            StaticPanels(state, modifier, startPanel, endPanel, centerPanel)
-        } else {
-            SwipingPanels(state, modifier, enabled, startPanel, endPanel, centerPanel)
-        }
-    }
-}
 
-@Composable
-private fun SwipingPanels(
-    state: PanelsState,
-    modifier: Modifier,
-    enabled: Boolean,
-    startPanel: @Composable () -> Unit,
-    endPanel: @Composable () -> Unit,
-    centerPanel: @Composable () -> Unit,
-) {
-    val layoutDirection = LocalLayoutDirection.current
-    val centerPanelOffset = remember { androidx.compose.animation.core.Animatable(0f) }
-    var isDragging by remember { mutableStateOf(false) }
-    val coroutineScope = rememberCoroutineScope()
-
-    val draggableState = rememberDraggableState {
-        coroutineScope.launch {
-            centerPanelOffset.snapTo(centerPanelOffset.value + it)
-        }
+    @Composable
+    internal fun containerShape(): Shape {
+        return containerShape
     }
 
-    BoxWithConstraints(
-        modifier = modifier
-            .draggable(
-                state = draggableState,
-                orientation = Orientation.Horizontal,
-                enabled = enabled,
-                onDragStopped = {
-                    isDragging = false
-                },
-                onDragStarted = {
-                    isDragging = true
-                }
-            )
-    ) {
-        LaunchedEffect(isDragging) {
-            if (!isDragging) {
-                val shouldAlignStart = centerPanelOffset.value >= maxWidth.value / 2
-                val shouldAlignEnd = centerPanelOffset.value <= (-maxWidth.value) / 2
-
-                val offset = (maxWidth.value * 0.9f) - 32f
-
-                when {
-                    shouldAlignStart -> {
-                        state.alignStart()
-                        centerPanelOffset.animateTo(offset)
-                    }
-                    shouldAlignEnd -> {
-                        state.alignEnd()
-                        centerPanelOffset.animateTo(-offset)
-                    }
-                    else -> {
-                        state.alignCenter()
-                        centerPanelOffset.animateTo(0f)
-                    }
-                }
-            }
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .zIndex(2f)
-                .offset { IntOffset(x = centerPanelOffset.value.roundToInt(), y = 0) }
-        ) {
-            centerPanel()
-        }
-        Box(
-            modifier = Modifier
-                .align(ComposeAlignment.CenterStart)
-                .fillMaxWidth(0.9f)
-                .zIndex(
-                    if ((layoutDirection == LayoutDirection.Ltr && state.alignment == Alignment.Start) ||
-                        (layoutDirection == LayoutDirection.Rtl && state.alignment == Alignment.End)) {
-                        1f
-                    } else 0f
-                )
-        ) {
-           startPanel()
-        }
-        Box(
-            modifier = Modifier
-                .align(ComposeAlignment.CenterEnd)
-                .padding(start = 12.dp)
-                .fillMaxWidth(0.9f)
-                .zIndex(
-                    if ((layoutDirection == LayoutDirection.Ltr && state.alignment == Alignment.End) ||
-                        (layoutDirection == LayoutDirection.Rtl && state.alignment == Alignment.Start)) {
-                        1f
-                    } else 0f
-                )
-        ) {
-           endPanel()
-        }
+    @Composable
+    internal fun centerPanelShape(): Shape {
+        return centerPanelShape
     }
-}
 
-@Composable
-private fun StaticPanels(
-    state: PanelsState,
-    modifier: Modifier,
-    startPanel: @Composable () -> Unit,
-    endPanel: @Composable () -> Unit,
-    centerPanel: @Composable () -> Unit,
-) {
-    Row(modifier = modifier) {
-        if (state.startPanelValue == PanelValue.Expanded) {
-            Box(Modifier.widthIn(min = 48.dp, max = 256.dp).fillMaxHeight()) {
-                startPanel()
-            }
-        }
-        Box(Modifier.fillMaxHeight().weight(1f)) {
-            centerPanel()
-        }
-        if (state.endPanelValue == PanelValue.Expanded) {
-            Box(Modifier.widthIn(min = 48.dp, max = 256.dp).fillMaxHeight()) {
-                endPanel()
-            }
-        }
+    @Composable
+    internal fun startPanelShape(): Shape {
+        return startPanelShape
+    }
+
+    @Composable
+    internal fun endPanelShape(): Shape {
+        return endPanelShape
     }
 }
