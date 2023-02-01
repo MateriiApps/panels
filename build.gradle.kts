@@ -1,5 +1,5 @@
-group "io.github.materiiapps"
-version "1.0-SNAPSHOT"
+group = "io.github.materiiapps"
+version = "1.0.0"
 
 allprojects {
     repositories {
