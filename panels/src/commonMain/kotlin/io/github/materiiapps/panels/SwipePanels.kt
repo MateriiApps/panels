@@ -64,6 +64,7 @@ fun SwipePanels(
     var isDragging by remember { mutableStateOf(false) }
     var centerOffset by remember { mutableStateOf(0f) }
     var dragDelta by remember { mutableStateOf(0f) }
+    var dragVelocity by remember { mutableStateOf(0f) }
 
     BoxWithConstraints(
         modifier = modifier
@@ -76,6 +77,8 @@ fun SwipePanels(
                     isDragging = true
                 },
                 onDragStopped = {
+                    dragVelocity = it
+                    println(it)
                     isDragging = false
                 }
             )
@@ -89,15 +92,14 @@ fun SwipePanels(
             maxWidthFloat * 0.8f
         }
 
-        //TODO: remove the duplicate code. currently impossible (or I just haven't figured out how),
-        // since LaunchedEffect compares the key by value, regardless of the specified equality
-        // struct in the State.
         LaunchedEffect(isDragging) {
             if (!isDragging) {
+                //TODO: not ideal
+                val offsetWithVelocity = centerOffset + (dragVelocity / 20f)
                 val maxWidthThird = maxWidthFloat / 3
                 val target = when {
-                    centerOffset <= -maxWidthThird -> -maxWidthFraction
-                    centerOffset >= maxWidthThird -> maxWidthFraction
+                    offsetWithVelocity <= -maxWidthThird -> -maxWidthFraction
+                    offsetWithVelocity >= maxWidthThird -> maxWidthFraction
                     else -> 0f
                 }
                 Animatable(centerOffset).animateTo(target) {
