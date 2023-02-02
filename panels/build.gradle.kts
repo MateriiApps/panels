@@ -4,7 +4,7 @@ plugins {
     id("com.android.library")
 }
 
-group = "io.github.materiiapps"
+group = "io.github.materiiapps.panels"
 version = "1.0"
 
 kotlin {
@@ -17,20 +17,6 @@ kotlin {
                 api(compose.foundation)
             }
         }
-        val commonTest by getting
-        val androidMain by getting {
-            dependencies {
-                api("androidx.appcompat:appcompat:1.6.0")
-                api("androidx.core:core-ktx:1.9.0")
-            }
-        }
-        val androidTest by getting
-        val desktopMain by getting {
-            dependencies {
-                api(compose.preview)
-            }
-        }
-        val desktopTest by getting
     }
 }
 
