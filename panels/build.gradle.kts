@@ -13,8 +13,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(compose.runtime)
-                api(compose.foundation)
+                implementation(compose.runtime)
+                implementation(compose.foundation)
             }
         }
     }

@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     centerPanelShape = RoundedCornerShape(12.dp)
                 )
             ) {
-                Spacer(Modifier.fillMaxSize())
+                Box(Modifier.fillMaxSize())
             }
         }
     }

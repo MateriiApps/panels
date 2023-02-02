@@ -12,13 +12,11 @@ object PanelsDefaults {
 
     @Composable
     fun colors(
-        containerBackground: Color = Color.Gray,
         centerPanelBackground: Color = Color.White,
         startPanelBackground: Color = Color.LightGray,
         endPanelBackground: Color = Color.LightGray
     ): PanelsColors {
         return PanelsColors(
-            containerBackground = containerBackground,
             centerPanelBackground = centerPanelBackground,
             startPanelBackground = startPanelBackground,
             endPanelBackground = endPanelBackground
@@ -40,13 +38,11 @@ object PanelsDefaults {
 
     @Composable
     fun shapes(
-        containerShape: Shape = RectangleShape,
         centerPanelShape: Shape = RectangleShape,
         startPanelShape: Shape = RectangleShape,
         endPanelShape: Shape = RectangleShape,
     ): PanelsShapes {
         return PanelsShapes(
-            containerShape = containerShape,
             centerPanelShape = centerPanelShape,
             startPanelShape = startPanelShape,
             endPanelShape = endPanelShape
@@ -56,16 +52,10 @@ object PanelsDefaults {
 
 @Stable
 data class PanelsColors internal constructor(
-    private val containerBackground: Color,
     private val centerPanelBackground: Color,
     private val startPanelBackground: Color,
     private val endPanelBackground: Color,
 ) {
-
-    @Composable
-    internal fun containerBackground(): Color {
-        return containerBackground
-    }
 
     @Composable
     internal fun centerPanelBackground(): Color {
@@ -108,16 +98,10 @@ data class PanelsPaddings internal constructor(
 
 @Stable
 data class PanelsShapes internal constructor(
-    private val containerShape: Shape,
     private val centerPanelShape: Shape,
     private val startPanelShape: Shape,
     private val endPanelShape: Shape
 ) {
-
-    @Composable
-    internal fun containerShape(): Shape {
-        return containerShape
-    }
 
     @Composable
     internal fun centerPanelShape(): Shape {

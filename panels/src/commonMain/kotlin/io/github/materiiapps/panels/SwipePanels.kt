@@ -67,8 +67,6 @@ fun SwipePanels(
 
     BoxWithConstraints(
         modifier = modifier
-            .clip(shapes.containerShape())
-            .background(colors.containerBackground())
             .draggable(
                 state = rememberDraggableState {
                     dragDelta = it

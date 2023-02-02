@@ -61,15 +61,11 @@ fun StaticPanels(
     shapes: PanelsShapes = PanelsDefaults.shapes(),
     paddings: PanelsPaddings = PanelsDefaults.paddings(),
     metrics: StaticPanelsMetrics = StaticPanelsDefaults.metrics(),
-    panelState: StaticPanelsState = rememberStaticPanelsState(),
+    state: StaticPanelsState = rememberStaticPanelsState(),
     center: @Composable () -> Unit,
 ) {
-    Row(
-        modifier = modifier
-            .clip(shapes.containerShape())
-            .background(colors.containerBackground()),
-    ) {
-        if (panelState.startPanelValue == StaticPanelValue.Expanded) {
+    Row(modifier = modifier,) {
+        if (state.startPanelValue == StaticPanelValue.Expanded) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -96,7 +92,7 @@ fun StaticPanels(
         ) {
             center()
         }
-        if (panelState.endPanelValue == StaticPanelValue.Expanded) {
+        if (state.endPanelValue == StaticPanelValue.Expanded) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()

@@ -29,4 +29,5 @@ android {
 dependencies {
     implementation(project(":panels"))
     implementation("androidx.activity:activity-compose:1.6.1")
+    implementation("androidx.compose.foundation:foundation:1.3.1")
 }

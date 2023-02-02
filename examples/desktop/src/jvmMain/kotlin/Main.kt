@@ -1,3 +1,4 @@
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,10 +14,10 @@ fun main() = application {
     Window(onCloseRequest = ::exitApplication) {
         StaticPanels(
             start = {
-                Spacer(Modifier.fillMaxWidth())
+                Box(Modifier.fillMaxWidth())
             },
             end = {
-                Spacer(Modifier.fillMaxWidth())
+                Box(Modifier.fillMaxWidth())
             },
             paddings = PanelsDefaults.paddings(
                 startPanelPadding = PaddingValues(end = 8.dp),
@@ -34,7 +35,7 @@ fun main() = application {
                 centerPanelShape = RoundedCornerShape(8.dp)
             )
         ) {
-
+            Box(Modifier.fillMaxWidth())
         }
     }
 }
