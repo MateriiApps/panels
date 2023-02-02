@@ -1,9 +1,9 @@
 # Panels
 Discord-like side panels for Jetpack Compose Multiplatform.
 
-# Usage
+## Usage
 
-## Swipe Panels
+### Swipe Panels
 
 Swipe Panels behaves just like the layout in the Discord Android app.
 
@@ -20,7 +20,7 @@ SwipePanels(
 }
 ```
 
-## Static Panels
+### Static Panels
 
 Static Panels behaves just like the layout in the Discord Desktop app.
 ```kt
