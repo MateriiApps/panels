@@ -18,5 +18,7 @@ pluginManagement {
 
 rootProject.name = "panels"
 
-include(":examples:android", ":examples:desktop")
-include(":panels")
+include(
+    ":examples:android", ":examples:android-material3",
+    ":examples:desktop", ":examples:desktop-material3")
+include(":panels", ":panels-material3")
