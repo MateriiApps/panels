@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
@@ -7,10 +9,13 @@ plugins {
 }
 
 kotlin {
-    android("android")
     jvm("desktop")
+    android("android") {
+        publishLibraryVariants("release")
+    }
+
     sourceSets {
-        val commonMain by getting {
+        named("commonMain") {
             dependencies {
                 implementation(compose.runtime)
                 implementation(compose.foundation)
@@ -18,23 +23,32 @@ kotlin {
         }
     }
 
-    android {
-        publishLibraryVariants("release")
-    }
+    jvmToolchain(8)
 }
 
 android {
-    namespace = "io.github.materiiapps"
+    namespace = "io.github.materiiapps.panels"
     compileSdk = 33
+
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 33
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        buildConfig = false
+        resValues = false
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
     }
 }

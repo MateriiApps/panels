@@ -7,7 +7,7 @@ plugins {
 }
 
 subprojects {
-    group = "io.github.materiiapps"
+    group = "io.github.materiiapps.panels"
     version = "1.0.0"
 
     repositories {

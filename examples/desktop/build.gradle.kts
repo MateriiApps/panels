@@ -5,9 +5,9 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-group = "io.github.materiiapps"
-version = "1.0-SNAPSHOT"
-
+kotlin {
+    jvmToolchain(11)
+}
 
 kotlin {
     jvm {
@@ -17,13 +17,12 @@ kotlin {
         withJava()
     }
     sourceSets {
-        val jvmMain by getting {
+        named("jvmMain") {
             dependencies {
-                implementation(project(":panels"))
                 implementation(compose.desktop.currentOs)
+                implementation(project(":panels"))
             }
         }
-        val jvmTest by getting
     }
 }
 
@@ -31,7 +30,7 @@ compose.desktop {
     application {
         mainClass = "MainKt"
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb)
             packageName = "panels"
             packageVersion = "1.0.0"
         }
