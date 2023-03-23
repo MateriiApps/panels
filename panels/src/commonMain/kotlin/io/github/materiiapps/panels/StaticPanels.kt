@@ -64,19 +64,19 @@ fun StaticPanels(
     state: StaticPanelsState = rememberStaticPanelsState(),
     center: @Composable () -> Unit,
 ) {
-    Row(modifier = modifier,) {
+    Row(modifier = modifier) {
         if (state.startPanelValue == StaticPanelValue.Expanded) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
                     .widthIn(
                         min = metrics.startPanelMinWidth(),
-                        max = metrics.startPanelMaxWidth()
+                        max = metrics.startPanelMaxWidth(),
                     )
                     .padding(paddings.starPanelPadding())
                     .clip(shapes.startPanelShape())
                     .background(colors.startPanelBackground()),
-                propagateMinConstraints = true
+                propagateMinConstraints = true,
             ) {
                 start()
             }
@@ -88,7 +88,7 @@ fun StaticPanels(
                 .padding(paddings.centerPanelPadding())
                 .clip(shapes.centerPanelShape())
                 .background(colors.centerPanelBackground()),
-            propagateMinConstraints = true
+            propagateMinConstraints = true,
         ) {
             center()
         }
@@ -98,12 +98,12 @@ fun StaticPanels(
                     .fillMaxHeight()
                     .widthIn(
                         min = metrics.endPanelMinWidth(),
-                        max = metrics.endPanelMaxWidth()
+                        max = metrics.endPanelMaxWidth(),
                     )
                     .padding(paddings.endPanelPadding())
                     .clip(shapes.endPanelShape())
                     .background(colors.endPanelBackground()),
-                propagateMinConstraints = true
+                propagateMinConstraints = true,
             ) {
                 end()
             }
@@ -124,7 +124,7 @@ object StaticPanelsDefaults {
             startPanelMinWidth = startPanelMinWidth,
             startPanelMaxWidth = startPanelMaxWidth,
             endPanelMinWidth = endPanelMinWidth,
-            endPanelMaxWidth = endPanelMaxWidth
+            endPanelMaxWidth = endPanelMaxWidth,
         )
     }
 
@@ -141,14 +141,17 @@ data class StaticPanelsMetrics internal constructor(
     internal fun startPanelMinWidth(): Dp {
         return startPanelMinWidth
     }
+
     @Composable
     internal fun startPanelMaxWidth(): Dp {
         return startPanelMaxWidth
     }
+
     @Composable
     internal fun endPanelMinWidth(): Dp {
         return endPanelMinWidth
     }
+
     @Composable
     internal fun endPanelMaxWidth(): Dp {
         return endPanelMaxWidth

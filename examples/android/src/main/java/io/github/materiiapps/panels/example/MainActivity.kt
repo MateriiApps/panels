@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Modifier
@@ -31,8 +30,8 @@ class MainActivity : ComponentActivity() {
                 shapes = PanelsDefaults.shapes(
                     startPanelShape = RoundedCornerShape(12.dp),
                     endPanelShape = RoundedCornerShape(12.dp),
-                    centerPanelShape = RoundedCornerShape(12.dp)
-                )
+                    centerPanelShape = RoundedCornerShape(12.dp),
+                ),
             ) {
                 Box(Modifier.fillMaxSize())
             }

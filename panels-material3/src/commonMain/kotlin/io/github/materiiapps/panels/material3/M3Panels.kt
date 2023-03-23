@@ -30,7 +30,7 @@ fun M3StaticPanels(
         state = state,
         start = start,
         end = end,
-        center = center
+        center = center,
     )
 }
 
@@ -53,7 +53,7 @@ fun M3SwipePanels(
         state = state,
         start = start,
         end = end,
-        center = center
+        center = center,
     )
 }
 
@@ -66,7 +66,7 @@ fun PanelsDefaults.material3Colors(
     return colors(
         centerPanelBackground = centerPanelSurface,
         startPanelBackground = startPanelSurface,
-        endPanelBackground = endPanelSurface
+        endPanelBackground = endPanelSurface,
     )
 }
 
@@ -79,6 +79,6 @@ fun PanelsDefaults.material3Shapes(
     return shapes(
         centerPanelShape = centerPanelShape,
         startPanelShape = startPanelShape,
-        endPanelShape = endPanelShape
+        endPanelShape = endPanelShape,
     )
 }

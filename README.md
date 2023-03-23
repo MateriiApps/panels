@@ -1,4 +1,5 @@
 # Panels ![Maven Central](https://img.shields.io/maven-central/v/io.github.materiiapps.panels/panels?style=flat-square)
+
 Discord-like side panels for Jetpack Compose Multiplatform.
 
 ## Installation
@@ -36,6 +37,7 @@ SwipePanels(
 ### Static Panels
 
 Static Panels behaves just like the layout in the Discord Desktop app.
+
 ```kt
 StaticPanels(
     start = {
@@ -49,4 +51,5 @@ StaticPanels(
 }
 ```
 
-These are the most basic ways to use the panels. Check out the [samples](/examples) for more detailed examples.
+These are the most basic ways to use the panels. Check out the [samples](/examples) for more
+detailed examples.

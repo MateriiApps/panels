@@ -19,7 +19,7 @@ object PanelsDefaults {
         return PanelsColors(
             centerPanelBackground = centerPanelBackground,
             startPanelBackground = startPanelBackground,
-            endPanelBackground = endPanelBackground
+            endPanelBackground = endPanelBackground,
         )
     }
 
@@ -45,7 +45,7 @@ object PanelsDefaults {
         return PanelsShapes(
             centerPanelShape = centerPanelShape,
             startPanelShape = startPanelShape,
-            endPanelShape = endPanelShape
+            endPanelShape = endPanelShape,
         )
     }
 }

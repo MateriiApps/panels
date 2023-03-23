@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                 colorScheme = when (isSystemInDarkTheme()) {
                     true -> darkColorScheme()
                     false -> lightColorScheme()
-                }
+                },
             ) {
                 Surface(color = MaterialTheme.colorScheme.background) {
                     M3SwipePanels(
@@ -37,8 +37,8 @@ class MainActivity : ComponentActivity() {
                         paddings = PanelsDefaults.paddings(
                             centerPanelPadding = PaddingValues(4.dp),
                             startPanelPadding = PaddingValues(8.dp),
-                            endPanelPadding = PaddingValues(8.dp)
-                        )
+                            endPanelPadding = PaddingValues(8.dp),
+                        ),
                     ) {
                         Box(Modifier.fillMaxSize())
                     }

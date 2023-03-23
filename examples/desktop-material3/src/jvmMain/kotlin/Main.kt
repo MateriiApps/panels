@@ -19,7 +19,7 @@ fun main() = application {
             colorScheme = when (isSystemInDarkTheme()) {
                 true -> darkColorScheme()
                 false -> lightColorScheme()
-            }
+            },
         ) {
             Surface(color = MaterialTheme.colorScheme.background) {
                 M3StaticPanels(

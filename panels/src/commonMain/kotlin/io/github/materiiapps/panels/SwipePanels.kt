@@ -78,10 +78,9 @@ fun SwipePanels(
                 },
                 onDragStopped = {
                     dragVelocity = it
-                    println(it)
                     isDragging = false
-                }
-            )
+                },
+            ),
     ) {
         val maxWidthFloat = remember(maxWidth, density) {
             with(density) {
@@ -120,7 +119,7 @@ fun SwipePanels(
         LaunchedEffect(dragDelta) {
             centerOffset = (centerOffset + dragDelta).coerceIn(
                 minimumValue = -maxWidthFraction,
-                maximumValue = maxWidthFraction
+                maximumValue = maxWidthFraction,
             )
         }
 
@@ -136,7 +135,7 @@ fun SwipePanels(
                 .padding(paddings.starPanelPadding())
                 .clip(shapes.startPanelShape())
                 .background(colors.startPanelBackground()),
-            propagateMinConstraints = true
+            propagateMinConstraints = true,
         ) {
             start()
         }
@@ -147,7 +146,7 @@ fun SwipePanels(
                 .padding(paddings.centerPanelPadding())
                 .clip(shapes.centerPanelShape())
                 .background(colors.centerPanelBackground()),
-            propagateMinConstraints = true
+            propagateMinConstraints = true,
         ) {
             center()
         }
@@ -163,7 +162,7 @@ fun SwipePanels(
                 .padding(paddings.endPanelPadding())
                 .clip(shapes.endPanelShape())
                 .background(colors.endPanelBackground()),
-            propagateMinConstraints = true
+            propagateMinConstraints = true,
         ) {
             end()
         }
