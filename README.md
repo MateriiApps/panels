@@ -1,5 +1,18 @@
-# Panels
+# Panels ![Maven Central](https://img.shields.io/maven-central/v/io.github.materiiapps.panels/panels?style=flat-square)
 Discord-like side panels for Jetpack Compose Multiplatform.
+
+## Installation
+
+```kt
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.github.materiiapps.panels:panels:1.0.0")
+    implementation("io.github.materiiapps.panels:panels-material3:1.0.0") // for Material 3 design
+}
+```
 
 ## Usage
 
@@ -36,4 +49,4 @@ StaticPanels(
 }
 ```
 
-These are the most basic ways to use the panels. Check out the [samples](/examples) directory for more detailed examples.
+These are the most basic ways to use the panels. Check out the [samples](/examples) for more detailed examples.

@@ -46,6 +46,7 @@ jobs:
           else
             echo "::set-output name=release_tag::$version"
           fi
+
       - name: Build and Maven publish
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
@@ -57,10 +58,12 @@ jobs:
           cd $GITHUB_WORKSPACE/src
           chmod +x gradlew
           ./gradlew publishToMavenLocal publish --no-daemon --stacktrace
+
       - name: Prepare Release
         run: |
           cd ~/.m2/repository
           zip -r $GITHUB_WORKSPACE/artifacts.zip *
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
