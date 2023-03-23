@@ -2,13 +2,12 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     id("com.android.library")
+    id("maven-publish")
+    id("signing")
 }
 
-group = "io.github.materiiapps.panels"
-version = "1.0"
-
 kotlin {
-    android()
+    android("android")
     jvm("desktop")
     sourceSets {
         val commonMain by getting {
@@ -20,17 +19,24 @@ kotlin {
             }
         }
     }
+
+    android {
+        publishLibraryVariants("release")
+    }
 }
 
 android {
+    namespace = "io.github.materiiapps"
     compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+
     defaultConfig {
         minSdk = 21
         targetSdk = 33
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
