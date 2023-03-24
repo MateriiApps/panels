@@ -10,55 +10,57 @@ import androidx.compose.ui.unit.dp
 import io.github.materiiapps.panels.*
 
 @Composable
-fun M3StaticPanels(
+public fun M3StaticPanels(
     start: @Composable () -> Unit,
+    center: @Composable () -> Unit,
     end: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    state: StaticPanelsState = rememberStaticPanelsState(),
     colors: PanelsColors = PanelsDefaults.material3Colors(),
     shapes: PanelsShapes = PanelsDefaults.material3Shapes(),
     paddings: PanelsPaddings = PanelsDefaults.paddings(),
-    metrics: StaticPanelsMetrics = StaticPanelsDefaults.metrics(),
-    state: StaticPanelsState = rememberStaticPanelsState(),
-    center: @Composable () -> Unit,
+    metrics: StaticPanelsMetrics = PanelsDefaults.metrics(),
 ) {
     StaticPanels(
+        start = start,
+        end = end,
+        center = center,
         modifier = modifier,
+        state = state,
         colors = colors,
         shapes = shapes,
         paddings = paddings,
         metrics = metrics,
-        state = state,
-        start = start,
-        end = end,
-        center = center,
     )
 }
 
 @Composable
-fun M3SwipePanels(
+public fun M3SwipePanels(
     start: @Composable () -> Unit,
+    center: @Composable () -> Unit,
     end: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    maxPanelWidth: Float = 0.9f,
+    state: SwipePanelsState = rememberSwipePanelsState(),
     colors: PanelsColors = PanelsDefaults.material3Colors(),
     shapes: PanelsShapes = PanelsDefaults.material3Shapes(),
     paddings: PanelsPaddings = PanelsDefaults.paddings(),
-    state: SwipePanelsState = rememberSwipePanelsState(),
-    center: @Composable () -> Unit,
 ) {
     SwipePanels(
-        modifier = modifier,
-        colors = colors,
-        shapes = shapes,
-        paddings = paddings,
-        state = state,
         start = start,
         end = end,
         center = center,
+        modifier = modifier,
+        maxPanelWidth = maxPanelWidth,
+        state = state,
+        colors = colors,
+        shapes = shapes,
+        paddings = paddings,
     )
 }
 
 @Composable
-fun PanelsDefaults.material3Colors(
+public fun PanelsDefaults.material3Colors(
     centerPanelSurface: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
     startPanelSurface: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
     endPanelSurface: Color = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp),
@@ -71,7 +73,7 @@ fun PanelsDefaults.material3Colors(
 }
 
 @Composable
-fun PanelsDefaults.material3Shapes(
+public fun PanelsDefaults.material3Shapes(
     centerPanelShape: Shape = MaterialTheme.shapes.large,
     startPanelShape: Shape = MaterialTheme.shapes.medium,
     endPanelShape: Shape = MaterialTheme.shapes.medium,

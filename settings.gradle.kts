@@ -15,6 +15,7 @@ pluginManagement {
 }
 
 include(
+    ":examples:shared",
     ":examples:android", ":examples:android-material3",
     ":examples:desktop", ":examples:desktop-material3",
 )

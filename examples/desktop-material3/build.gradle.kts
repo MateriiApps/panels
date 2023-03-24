@@ -6,16 +6,13 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(11)
-}
-
-kotlin {
     jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
         }
         withJava()
     }
+
     sourceSets {
         named("jvmMain") {
             dependencies {
@@ -24,10 +21,12 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":panels"))
                 implementation(project(":panels-material3"))
-
+                implementation(project(":examples:shared"))
             }
         }
     }
+
+    jvmToolchain(11)
 }
 
 compose.desktop {
