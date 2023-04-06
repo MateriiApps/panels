@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlin.math.roundToInt
 
@@ -70,14 +72,15 @@ public fun SwipePanels(
     start: @Composable () -> Unit,
     center: @Composable () -> Unit,
     end: @Composable () -> Unit,
+    containerColor: Color = Color.Unspecified,
     modifier: Modifier = Modifier,
     maxPanelWidth: Float = 0.9f,
     changeThreshold: Float = 0.1f,
     state: SwipePanelsState = rememberSwipePanelsState(),
-    colors: PanelsColors = PanelsDefaults.colors(),
-    shapes: PanelsShapes = PanelsDefaults.shapes(),
-    paddings: PanelsPaddings = PanelsDefaults.paddings(),
+    inBetweenPadding: Dp = 0.dp,
 ) {
+    val density = LocalDensity.current
+
     var dragVelocity by remember { mutableStateOf(0f) }
     var maxWidthSynthetic by remember { mutableStateOf(0f) }
     var centerOffset by remember { mutableStateOf(0f) }
@@ -138,6 +141,7 @@ public fun SwipePanels(
 
     BoxWithConstraints(
         modifier = modifier
+            .background(containerColor)
             .draggable(
                 orientation = Orientation.Horizontal,
                 state = rememberDraggableState { delta ->
@@ -156,9 +160,10 @@ public fun SwipePanels(
                 },
             ),
     ) {
-        val density = LocalDensity.current
-        LaunchedEffect(maxWidth, maxPanelWidth) {
-            maxWidthSynthetic = maxPanelWidth * with(density) { maxWidth.toPx() }
+        LaunchedEffect(maxWidth, maxPanelWidth, density) {
+            maxWidthSynthetic = maxPanelWidth * with(density) {
+                maxWidth.toPx()
+            } + with(density) { inBetweenPadding.toPx() }
         }
 
         val startVisible by remember { derivedStateOf { centerOffset >= 0 } }
@@ -171,10 +176,7 @@ public fun SwipePanels(
                     .align(Alignment.CenterStart)
                     .zIndex(0f)
                     .fillMaxHeight()
-                    .fillMaxWidth(maxPanelWidth)
-                    .padding(paddings.startPanelPadding)
-                    .clip(shapes.startPanelShape)
-                    .background(colors.startPanelBackground),
+                    .fillMaxWidth(maxPanelWidth),
                 propagateMinConstraints = true,
             ) {
                 start()
@@ -184,10 +186,7 @@ public fun SwipePanels(
         Box(
             modifier = Modifier
                 .offset { IntOffset(x = centerOffset.roundToInt(), y = 0) }
-                .zIndex(1f)
-                .padding(paddings.centerPanelPadding)
-                .clip(shapes.centerPanelShape)
-                .background(colors.centerPanelBackground),
+                .zIndex(1f),
             propagateMinConstraints = true,
         ) {
             center()
@@ -199,10 +198,7 @@ public fun SwipePanels(
                     .align(Alignment.CenterEnd)
                     .zIndex(0f)
                     .fillMaxHeight()
-                    .fillMaxWidth(maxPanelWidth)
-                    .padding(paddings.endPanelPadding)
-                    .clip(shapes.endPanelShape)
-                    .background(colors.endPanelBackground),
+                    .fillMaxWidth(maxPanelWidth),
                 propagateMinConstraints = true,
             ) {
                 end()

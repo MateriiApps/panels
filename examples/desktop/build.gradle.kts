@@ -17,8 +17,8 @@ kotlin {
         named("jvmMain") {
             dependencies {
                 implementation(compose.desktop.currentOs)
+                implementation(compose.material3)
                 implementation(project(":panels"))
-                implementation(project(":examples:shared"))
             }
         }
     }

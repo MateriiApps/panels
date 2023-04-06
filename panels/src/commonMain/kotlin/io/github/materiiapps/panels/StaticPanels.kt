@@ -8,8 +8,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 public enum class StaticPanelValue {
     Expanded,
@@ -69,12 +70,11 @@ public fun StaticPanels(
     end: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     state: StaticPanelsState = rememberStaticPanelsState(),
-    colors: PanelsColors = PanelsDefaults.colors(),
-    shapes: PanelsShapes = PanelsDefaults.shapes(),
-    paddings: PanelsPaddings = PanelsDefaults.paddings(),
+    containerColor: Color = Color.Unspecified,
     metrics: StaticPanelsMetrics = PanelsDefaults.metrics(),
+    inBetweenPadding: Dp = 0.dp,
 ) {
-    Row(modifier = modifier) {
+    Row(modifier = modifier.background(containerColor)) {
         AnimatedVisibility(
             visible = state.startPanelValue == StaticPanelValue.Expanded,
             enter = slideInHorizontally { it * -2 },
@@ -83,13 +83,11 @@ public fun StaticPanels(
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
+                    .padding(end = inBetweenPadding)
                     .widthIn(
                         min = metrics.startPanelMinWidth,
                         max = metrics.startPanelMaxWidth,
-                    )
-                    .padding(paddings.startPanelPadding)
-                    .clip(shapes.startPanelShape)
-                    .background(colors.startPanelBackground),
+                    ),
                 propagateMinConstraints = true,
             ) {
                 start()
@@ -99,11 +97,7 @@ public fun StaticPanels(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(1f)
-                .padding(paddings.centerPanelPadding)
-                .clip(shapes.centerPanelShape)
-                .background(colors.centerPanelBackground)
-                .animateContentSize(),
+                .weight(1f),
             propagateMinConstraints = true,
         ) {
             center()
@@ -117,13 +111,11 @@ public fun StaticPanels(
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
+                    .padding(start = inBetweenPadding)
                     .widthIn(
                         min = metrics.endPanelMinWidth,
                         max = metrics.endPanelMaxWidth,
-                    )
-                    .padding(paddings.endPanelPadding)
-                    .clip(shapes.endPanelShape)
-                    .background(colors.endPanelBackground),
+                    ),
                 propagateMinConstraints = true,
             ) {
                 end()
