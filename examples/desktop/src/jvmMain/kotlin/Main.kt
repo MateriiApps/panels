@@ -21,7 +21,7 @@ fun main() = application {
             colorScheme = when (isSystemInDarkTheme()) {
                 true -> darkColorScheme()
                 false -> lightColorScheme()
-            }
+            },
         ) {
             Surface(color = MaterialTheme.colorScheme.background) {
                 val state = rememberStaticPanelsState()
@@ -30,13 +30,13 @@ fun main() = application {
                     start = {
                         SideContent(
                             title = "Start",
-                            onClose = state::collapseStartPanel
+                            onClose = state::collapseStartPanel,
                         )
                     },
                     end = {
                         SideContent(
                             title = "End",
-                            onClose = state::collapseEndPanel
+                            onClose = state::collapseEndPanel,
                         )
                     },
                     center = {
@@ -45,8 +45,8 @@ fun main() = application {
                                 CenterAlignedTopAppBar(
                                     title = { Text("Center") },
                                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-                                    )
+                                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                                    ),
                                 )
                             },
                         ) {
@@ -55,12 +55,12 @@ fun main() = application {
                                     .fillMaxSize()
                                     .padding(it),
                                 verticalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterVertically),
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 Button(onClick = state::expandStartPanel) {
                                     Icon(
                                         imageVector = Icons.Default.KeyboardArrowLeft,
-                                        contentDescription = null
+                                        contentDescription = null,
                                     )
                                     Text("Open start")
                                 }
@@ -68,13 +68,13 @@ fun main() = application {
                                     Text("Open end")
                                     Icon(
                                         imageVector = Icons.Default.KeyboardArrowRight,
-                                        contentDescription = null
+                                        contentDescription = null,
                                     )
                                 }
                             }
                         }
                     },
-                    inBetweenPadding = 8.dp
+                    inBetweenPadding = 8.dp,
                 )
             }
         }
@@ -92,8 +92,8 @@ private fun SideContent(
             TopAppBar(
                 title = { Text(title) },
                 colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-                )
+                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                ),
             )
         },
     ) {
@@ -101,13 +101,13 @@ private fun SideContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             FilledTonalButton(onClick = onClose) {
                 Text("Close")
                 Icon(
                     imageVector = Icons.Default.Close,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
         }
@@ -123,6 +123,6 @@ fun StyledScaffold(
     Scaffold(
         topBar = topBar,
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
-        content = content
+        content = content,
     )
 }

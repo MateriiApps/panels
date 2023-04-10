@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                 colorScheme = when (isSystemInDarkTheme()) {
                     true -> darkColorScheme()
                     false -> lightColorScheme()
-                }
+                },
             ) {
                 Surface(color = MaterialTheme.colorScheme.background) {
                     val state = rememberSwipePanelsState()
@@ -37,13 +37,13 @@ class MainActivity : ComponentActivity() {
                         start = {
                             SideContent(
                                 title = "Start",
-                                onClose = state::close
+                                onClose = state::close,
                             )
                         },
                         end = {
                             SideContent(
                                 title = "End",
-                                onClose = state::close
+                                onClose = state::close,
                             )
                         },
                         center = {
@@ -52,8 +52,8 @@ class MainActivity : ComponentActivity() {
                                     CenterAlignedTopAppBar(
                                         title = { Text("Center") },
                                         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-                                        )
+                                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                                        ),
                                     )
                                 },
                             ) {
@@ -62,12 +62,12 @@ class MainActivity : ComponentActivity() {
                                         .fillMaxSize()
                                         .padding(it),
                                     verticalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterVertically),
-                                    horizontalAlignment = Alignment.CenterHorizontally
+                                    horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
                                     Button(onClick = state::openStart) {
                                         Icon(
                                             imageVector = Icons.Default.KeyboardArrowLeft,
-                                            contentDescription = null
+                                            contentDescription = null,
                                         )
                                         Text("Open start")
                                     }
@@ -75,61 +75,61 @@ class MainActivity : ComponentActivity() {
                                         Text("Open end")
                                         Icon(
                                             imageVector = Icons.Default.KeyboardArrowRight,
-                                            contentDescription = null
+                                            contentDescription = null,
                                         )
                                     }
                                 }
                             }
                         },
-                        inBetweenPadding = 8.dp
+                        inBetweenPadding = 8.dp,
                     )
                 }
             }
         }
     }
+}
 
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    private fun SideContent(
-        title: String,
-        onClose: () -> Unit
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SideContent(
+    title: String,
+    onClose: () -> Unit
+) {
+    StyledScaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(title) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                ),
+            )
+        },
     ) {
-        StyledScaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(title) },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp)
-                    )
-                )
-            },
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it),
+            contentAlignment = Alignment.Center,
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it),
-                contentAlignment = Alignment.Center
-            ) {
-                FilledTonalButton(onClick = onClose) {
-                    Text("Close")
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = null
-                    )
-                }
+            FilledTonalButton(onClick = onClose) {
+                Text("Close")
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = null,
+                )
             }
         }
     }
+}
 
-    @Composable
-    fun StyledScaffold(
-        topBar: @Composable () -> Unit,
-        content: @Composable (PaddingValues) -> Unit
-    ) {
-        Scaffold(
-            topBar = topBar,
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
-            content = content
-        )
-    }
+@Composable
+fun StyledScaffold(
+    topBar: @Composable () -> Unit,
+    content: @Composable (PaddingValues) -> Unit
+) {
+    Scaffold(
+        topBar = topBar,
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
+        content = content,
+    )
 }
