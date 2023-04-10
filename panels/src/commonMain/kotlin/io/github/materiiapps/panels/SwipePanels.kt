@@ -110,7 +110,7 @@ public fun SwipePanels(
                 state.targetValue == SwipePanelsValue.Center ->
                     SwipePanelsValue.Center
 
-                else -> return@LaunchedEffect
+                else -> state.currentValue
             }
 
             state.targetValue = targetValue
