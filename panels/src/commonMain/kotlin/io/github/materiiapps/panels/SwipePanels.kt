@@ -212,8 +212,8 @@ public fun SwipePanels(
         }
 
         // Panels are not rendered if they are not visible
-        val startVisible by remember { derivedStateOf { centerOffset >= 0 } }
-        val endVisible by remember { derivedStateOf { centerOffset <= 0 } }
+        val startVisible by remember { derivedStateOf { centerOffset > 0 } }
+        val endVisible by remember { derivedStateOf { centerOffset < 0 } }
 
         // Start panel
         if (startVisible) {

@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-  implementation("io.github.materiiapps.panels:panels:1.0.0")
+  implementation("io.github.materiiapps.panels:panels:1.0.1")
 }
 ```
 
