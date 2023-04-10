@@ -1,10 +1,8 @@
 package io.github.materiiapps.panels
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -61,11 +59,10 @@ public fun StaticPanels(
     end: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     inBetweenPadding: Dp = 0.dp,
-    containerColor: Color = Color.Unspecified,
     state: StaticPanelsState = rememberStaticPanelsState(),
     metrics: StaticPanelsMetrics = PanelsDefaults.metrics(),
 ) {
-    Row(modifier = modifier.background(containerColor)) {
+    Row(modifier = modifier) {
         if (state.isStartPanelExpanded) {
             Box(
                 modifier = Modifier

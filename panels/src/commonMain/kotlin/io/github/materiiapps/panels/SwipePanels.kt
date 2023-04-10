@@ -70,7 +70,6 @@ public fun SwipePanels(
     start: @Composable () -> Unit,
     center: @Composable () -> Unit,
     end: @Composable () -> Unit,
-    containerColor: Color = Color.Unspecified,
     modifier: Modifier = Modifier,
     maxPanelWidth: Float = 0.9f,
     changeThreshold: Float = 0.1f,
@@ -139,7 +138,6 @@ public fun SwipePanels(
 
     BoxWithConstraints(
         modifier = modifier
-            .background(containerColor)
             .draggable(
                 orientation = Orientation.Horizontal,
                 state = rememberDraggableState { delta ->
