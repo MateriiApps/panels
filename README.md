@@ -1,6 +1,6 @@
 # Panels ![Maven Central](https://img.shields.io/maven-central/v/io.github.materiiapps.panels/panels?style=flat-square)
 
-Discord-like side panels for Jetpack Compose Multiplatform.
+Discord-like swiping side panels for Jetpack Compose Multiplatform.
 
 ## Installation
 
@@ -11,7 +11,6 @@ repositories {
 
 dependencies {
   implementation("io.github.materiiapps.panels:panels:1.0.0")
-  implementation("io.github.materiiapps.panels:panels-material3:1.0.0") // for Material 3 design
 }
 ```
 
