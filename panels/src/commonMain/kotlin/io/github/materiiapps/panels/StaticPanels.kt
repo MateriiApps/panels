@@ -4,157 +4,105 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-enum class StaticPanelValue {
-    Expanded,
-    Collapsed,
-}
-
 @Stable
-class StaticPanelsState(
-    initialStartPanelValue: StaticPanelValue,
-    initialEndPanelValue: StaticPanelValue
+public class StaticPanelsState(
+    initialStartPanelExpanded: Boolean = true,
+    initialEndPanelExpanded: Boolean = true,
 ) {
+    public var isStartPanelExpanded: Boolean by mutableStateOf(initialStartPanelExpanded)
+        internal set
 
-    var startPanelValue by mutableStateOf(initialStartPanelValue)
-        private set
+    public var isEndPanelExpanded: Boolean by mutableStateOf(initialEndPanelExpanded)
+        internal set
 
-    var endPanelValue by mutableStateOf(initialEndPanelValue)
-        private set
-
-    fun expandStartPanel() {
-        startPanelValue = StaticPanelValue.Expanded
+    public fun setStartPanelExpanded(expanded: Boolean) {
+        isStartPanelExpanded = expanded
     }
 
-    fun collapseStartPanel() {
-        startPanelValue = StaticPanelValue.Collapsed
+    public fun expandStartPanel() {
+        isStartPanelExpanded = true
     }
 
-    fun expandEndPanel() {
-        endPanelValue = StaticPanelValue.Expanded
+    public fun collapseStartPanel() {
+        isStartPanelExpanded = false
     }
 
-    fun collapseEndPanel() {
-        endPanelValue = StaticPanelValue.Collapsed
+    public fun setEndPanel(expanded: Boolean) {
+        isEndPanelExpanded = expanded
+    }
+
+    public fun expandEndPanel() {
+        isEndPanelExpanded = true
+    }
+
+    public fun collapseEndPanel() {
+        isEndPanelExpanded = false
     }
 }
 
 @Composable
-fun rememberStaticPanelsState(
-    startPanelValue: StaticPanelValue = StaticPanelValue.Expanded,
-    endPanelValue: StaticPanelValue = StaticPanelValue.Expanded,
+public fun rememberStaticPanelsState(
+    initialStartPanelExpanded: Boolean = true,
+    initialEndPanelExpanded: Boolean = true,
 ): StaticPanelsState {
-    return remember(startPanelValue, endPanelValue) {
-        StaticPanelsState(startPanelValue, endPanelValue)
+    return remember {
+        StaticPanelsState(initialStartPanelExpanded, initialEndPanelExpanded)
     }
 }
 
 @Composable
-fun StaticPanels(
+public fun StaticPanels(
     start: @Composable () -> Unit,
+    center: @Composable () -> Unit,
     end: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    colors: PanelsColors = PanelsDefaults.colors(),
-    shapes: PanelsShapes = PanelsDefaults.shapes(),
-    paddings: PanelsPaddings = PanelsDefaults.paddings(),
-    metrics: StaticPanelsMetrics = StaticPanelsDefaults.metrics(),
+    inBetweenPadding: Dp = 0.dp,
+    containerColor: Color = Color.Unspecified,
     state: StaticPanelsState = rememberStaticPanelsState(),
-    center: @Composable () -> Unit,
+    metrics: StaticPanelsMetrics = PanelsDefaults.metrics(),
 ) {
-    Row(modifier = modifier) {
-        if (state.startPanelValue == StaticPanelValue.Expanded) {
+    Row(modifier = modifier.background(containerColor)) {
+        if (state.isStartPanelExpanded) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
+                    .padding(end = inBetweenPadding)
                     .widthIn(
-                        min = metrics.startPanelMinWidth(),
-                        max = metrics.startPanelMaxWidth(),
-                    )
-                    .padding(paddings.starPanelPadding())
-                    .clip(shapes.startPanelShape())
-                    .background(colors.startPanelBackground()),
+                        min = metrics.startPanelMinWidth,
+                        max = metrics.startPanelMaxWidth,
+                    ),
                 propagateMinConstraints = true,
             ) {
                 start()
             }
         }
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(1f)
-                .padding(paddings.centerPanelPadding())
-                .clip(shapes.centerPanelShape())
-                .background(colors.centerPanelBackground()),
+                .weight(1f),
             propagateMinConstraints = true,
         ) {
             center()
         }
-        if (state.endPanelValue == StaticPanelValue.Expanded) {
+
+        if (state.isEndPanelExpanded) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
+                    .padding(start = inBetweenPadding)
                     .widthIn(
-                        min = metrics.endPanelMinWidth(),
-                        max = metrics.endPanelMaxWidth(),
-                    )
-                    .padding(paddings.endPanelPadding())
-                    .clip(shapes.endPanelShape())
-                    .background(colors.endPanelBackground()),
+                        min = metrics.endPanelMinWidth,
+                        max = metrics.endPanelMaxWidth,
+                    ),
                 propagateMinConstraints = true,
             ) {
                 end()
             }
         }
     }
-}
-
-object StaticPanelsDefaults {
-
-    @Composable
-    fun metrics(
-        startPanelMinWidth: Dp = 72.dp,
-        startPanelMaxWidth: Dp = 256.dp,
-        endPanelMinWidth: Dp = startPanelMinWidth,
-        endPanelMaxWidth: Dp = startPanelMaxWidth,
-    ): StaticPanelsMetrics {
-        return StaticPanelsMetrics(
-            startPanelMinWidth = startPanelMinWidth,
-            startPanelMaxWidth = startPanelMaxWidth,
-            endPanelMinWidth = endPanelMinWidth,
-            endPanelMaxWidth = endPanelMaxWidth,
-        )
-    }
-
-}
-
-data class StaticPanelsMetrics internal constructor(
-    private val startPanelMinWidth: Dp,
-    private val startPanelMaxWidth: Dp,
-    private val endPanelMinWidth: Dp,
-    private val endPanelMaxWidth: Dp,
-) {
-
-    @Composable
-    internal fun startPanelMinWidth(): Dp {
-        return startPanelMinWidth
-    }
-
-    @Composable
-    internal fun startPanelMaxWidth(): Dp {
-        return startPanelMaxWidth
-    }
-
-    @Composable
-    internal fun endPanelMinWidth(): Dp {
-        return endPanelMinWidth
-    }
-
-    @Composable
-    internal fun endPanelMaxWidth(): Dp {
-        return endPanelMaxWidth
-    }
-
 }
