@@ -8,54 +8,49 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-public enum class StaticPanelValue {
-    Expanded,
-    Collapsed,
-}
-
 @Stable
 public class StaticPanelsState(
-    initialStartPanelValue: StaticPanelValue,
-    initialEndPanelValue: StaticPanelValue
+    initialStartPanelExpanded: Boolean = true,
+    initialEndPanelExpanded: Boolean = true,
 ) {
-    public var startPanelValue: StaticPanelValue by mutableStateOf(initialStartPanelValue)
+    public var isStartPanelExpanded: Boolean by mutableStateOf(initialStartPanelExpanded)
         internal set
 
-    public var endPanelValue: StaticPanelValue by mutableStateOf(initialEndPanelValue)
+    public var isEndPanelExpanded: Boolean by mutableStateOf(initialEndPanelExpanded)
         internal set
 
-    public fun setStartPanel(value: StaticPanelValue) {
-        startPanelValue = value
+    public fun setStartPanelExpanded(expanded: Boolean) {
+        isStartPanelExpanded = expanded
     }
 
     public fun expandStartPanel() {
-        startPanelValue = StaticPanelValue.Expanded
+        isStartPanelExpanded = true
     }
 
     public fun collapseStartPanel() {
-        startPanelValue = StaticPanelValue.Collapsed
+        isStartPanelExpanded = false
     }
 
-    public fun setEndPanel(value: StaticPanelValue) {
-        endPanelValue = value
+    public fun setEndPanel(expanded: Boolean) {
+        isEndPanelExpanded = expanded
     }
 
     public fun expandEndPanel() {
-        endPanelValue = StaticPanelValue.Expanded
+        isEndPanelExpanded = true
     }
 
     public fun collapseEndPanel() {
-        endPanelValue = StaticPanelValue.Collapsed
+        isEndPanelExpanded = false
     }
 }
 
 @Composable
 public fun rememberStaticPanelsState(
-    initialStartPanelValue: StaticPanelValue = StaticPanelValue.Expanded,
-    initialEndPanelValue: StaticPanelValue = StaticPanelValue.Expanded,
+    initialStartPanelExpanded: Boolean = true,
+    initialEndPanelExpanded: Boolean = true,
 ): StaticPanelsState {
     return remember {
-        StaticPanelsState(initialStartPanelValue, initialEndPanelValue)
+        StaticPanelsState(initialStartPanelExpanded, initialEndPanelExpanded)
     }
 }
 
@@ -65,13 +60,13 @@ public fun StaticPanels(
     center: @Composable () -> Unit,
     end: @Composable () -> Unit,
     modifier: Modifier = Modifier,
-    state: StaticPanelsState = rememberStaticPanelsState(),
-    containerColor: Color = Color.Unspecified,
-    metrics: StaticPanelsMetrics = PanelsDefaults.metrics(),
     inBetweenPadding: Dp = 0.dp,
+    containerColor: Color = Color.Unspecified,
+    state: StaticPanelsState = rememberStaticPanelsState(),
+    metrics: StaticPanelsMetrics = PanelsDefaults.metrics(),
 ) {
     Row(modifier = modifier.background(containerColor)) {
-        if (state.startPanelValue == StaticPanelValue.Expanded) {
+        if (state.isStartPanelExpanded) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -95,7 +90,7 @@ public fun StaticPanels(
             center()
         }
 
-        if (state.endPanelValue == StaticPanelValue.Expanded) {
+        if (state.isEndPanelExpanded) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
