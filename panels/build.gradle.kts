@@ -58,23 +58,15 @@ task<Jar>("emptyJavadocJar") {
     archiveClassifier.set("javadoc")
 }
 
-publishing {
-    val sonatypeUsername: String? = System.getenv("SONATYPE_USERNAME")
-    val sonatypePassword: String? = System.getenv("SONATYPE_PASSWORD")
 
+val sonatypeUsername: String? = System.getenv("SONATYPE_USERNAME")
+val sonatypePassword: String? = System.getenv("SONATYPE_PASSWORD")
+
+publishing {
     repositories {
         if (sonatypeUsername == null || sonatypePassword == null)
             mavenLocal()
         else {
-            signing {
-                useInMemoryPgpKeys(
-                    System.getenv("SIGNING_KEY_ID"),
-                    System.getenv("SIGNING_KEY"),
-                    System.getenv("SIGNING_PASSWORD"),
-                )
-                sign(publications)
-            }
-
             maven {
                 credentials {
                     username = sonatypeUsername
@@ -119,9 +111,21 @@ publishing {
     }
 }
 
-// See https://youtrack.jetbrains.com/issue/KT-46466/Kotlin-MPP-publishing-Gradle-7-disables-optimizations-because-of-task-dependencies#focus=Comments-27-7102038.0-0
-val dependsOnTasks = mutableListOf<String>()
-tasks.withType<AbstractPublishToMaven>().configureEach {
-    dependsOnTasks.add(name.replace("publish", "sign").replaceAfter("Publication", ""))
-    dependsOn(dependsOnTasks)
+if (sonatypeUsername != null && sonatypePassword != null) {
+    signing {
+        useInMemoryPgpKeys(
+            System.getenv("SIGNING_KEY_ID"),
+            System.getenv("SIGNING_KEY"),
+            System.getenv("SIGNING_PASSWORD"),
+        )
+        sign(publishing.publications)
+    }
+
+
+    // See https://youtrack.jetbrains.com/issue/KT-46466/Kotlin-MPP-publishing-Gradle-7-disables-optimizations-because-of-task-dependencies#focus=Comments-27-7102038.0-0
+    val dependsOnTasks = mutableListOf<String>()
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        dependsOnTasks.add(name.replace("publish", "sign").replaceAfter("Publication", ""))
+        dependsOn(dependsOnTasks)
+    }
 }
