@@ -6,6 +6,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+@Immutable
+public data class StaticPanelsMetrics(
+    val startPanelMinWidth: Dp = 72.dp,
+    val startPanelMaxWidth: Dp = 256.dp,
+    val endPanelMinWidth: Dp = 72.dp,
+    val endPanelMaxWidth: Dp = 256.dp,
+)
+
 @Stable
 public class StaticPanelsState(
     initialStartPanelExpanded: Boolean = true,
@@ -60,7 +68,7 @@ public fun StaticPanels(
     modifier: Modifier = Modifier,
     inBetweenPadding: Dp = 0.dp,
     state: StaticPanelsState = rememberStaticPanelsState(),
-    metrics: StaticPanelsMetrics = PanelsDefaults.metrics(),
+    metrics: StaticPanelsMetrics = StaticPanelsMetrics(),
 ) {
     Row(modifier = modifier) {
         if (state.isStartPanelExpanded) {
