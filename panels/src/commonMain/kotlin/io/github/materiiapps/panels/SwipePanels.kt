@@ -32,14 +32,12 @@ public class SwipePanelsState(
     public var currentValue: SwipePanelsValue by mutableStateOf(initialValue, referentialEqualityPolicy())
         internal set
 
-    public var targetValue: SwipePanelsValue by mutableStateOf(initialValue, referentialEqualityPolicy())
+    // neverEqualPolicy is needed in order to reanimate to the same values
+    public var targetValue: SwipePanelsValue by mutableStateOf(initialValue, neverEqualPolicy())
         internal set
 
     public var isDragging: Boolean by mutableStateOf(false)
         internal set
-
-    // Internal update key for forcing an animation refresh
-    internal var refresh: Int by mutableStateOf(0)
 
     public fun setValue(value: SwipePanelsValue) {
         targetValue = value
@@ -114,11 +112,11 @@ public fun SwipePanels(
             }
 
             state.targetValue = targetValue
-            state.refresh++
         }
     }
 
-    LaunchedEffect(state.targetValue, state.refresh, state.isDragging) {
+    // Animate the panels when targetValue changes or cancel on drag
+    LaunchedEffect(state.targetValue, state.isDragging) {
         if (state.isDragging) {
             // Cancel the previous LaunchedEffect
             return@LaunchedEffect
@@ -161,9 +159,9 @@ public fun SwipePanels(
             ),
     ) {
         LaunchedEffect(maxWidth, maxPanelWidth, density) {
-            maxWidthSynthetic = maxPanelWidth * with(density) {
-                maxWidth.toPx()
-            } + with(density) { inBetweenPadding.toPx() }
+            maxWidthSynthetic = maxPanelWidth *
+                    density.run { maxWidth.toPx() } +
+                    density.run { inBetweenPadding.toPx() }
         }
 
         val startVisible by remember { derivedStateOf { centerOffset >= 0 } }
