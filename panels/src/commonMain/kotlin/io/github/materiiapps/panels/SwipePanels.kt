@@ -76,8 +76,8 @@ public fun SwipePanels(
     modifier: Modifier = Modifier,
     maxPanelWidth: Float = 0.9f,
     changeThreshold: Float = 0.1f,
-    state: SwipePanelsState = rememberSwipePanelsState(),
     inBetweenPadding: Dp = 0.dp,
+    state: SwipePanelsState = rememberSwipePanelsState(),
 ) {
     val density = LocalDensity.current
 

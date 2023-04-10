@@ -1,8 +1,5 @@
 package io.github.materiiapps.panels
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -74,11 +71,7 @@ public fun StaticPanels(
     inBetweenPadding: Dp = 0.dp,
 ) {
     Row(modifier = modifier.background(containerColor)) {
-        AnimatedVisibility(
-            visible = state.startPanelValue == StaticPanelValue.Expanded,
-            enter = slideInHorizontally { it * -2 },
-            exit = slideOutHorizontally { -it },
-        ) {
+        if (state.startPanelValue == StaticPanelValue.Expanded) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -102,11 +95,7 @@ public fun StaticPanels(
             center()
         }
 
-        AnimatedVisibility(
-            visible = state.endPanelValue == StaticPanelValue.Expanded,
-            enter = slideInHorizontally { it * 2 },
-            exit = slideOutHorizontally { it },
-        ) {
+        if (state.endPanelValue == StaticPanelValue.Expanded) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
